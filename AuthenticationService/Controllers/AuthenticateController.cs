@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AuthenticationService.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
 {
@@ -7,9 +8,16 @@ namespace AuthenticationService.Controllers
     [Route("v{version:apiVersion}/[controller]")]
     public class AuthenticateController : ControllerBase
     {
+        private readonly ITokenManager _tokenManager;
+
+        public AuthenticateController(ITokenManager tokenManager)
+        {
+            _tokenManager = tokenManager;
+        }
+
         public IActionResult Authenticate(string username, string password)
         {
-            if (_tokenManager.Authenticate())
+            if (_tokenManager.Authenticate(username, password))
             {
                 // We will return a dynamic object.
                 return Ok(new
