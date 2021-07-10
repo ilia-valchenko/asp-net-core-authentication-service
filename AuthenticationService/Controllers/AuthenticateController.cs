@@ -15,6 +15,7 @@ namespace AuthenticationService.Controllers
             _tokenManager = tokenManager;
         }
 
+        [HttpPost]
         public IActionResult Authenticate(string username, string password)
         {
             if (_tokenManager.Authenticate(username, password))
